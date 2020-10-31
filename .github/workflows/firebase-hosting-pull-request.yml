@@ -12,7 +12,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MANAGEMONEY_9EC44 }}'
-          projectId: managemoney-9ec44
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MANAGE_AMOUNT }}'
+          projectId: manage-amount
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
