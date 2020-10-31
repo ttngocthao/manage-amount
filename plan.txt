@@ -1,0 +1,12 @@
+1. Setup
+  -> react //done
+  -> firebase for database
+  -> pwa
+  -> material ui for styling //done
+  -> toasting for pop up
+  -> react skeleton for loading time
+2. Phase
+  --> I: 3 views.
+  ------> dasboard with total, all resources with total amount
+  ------> each resource shows total amount, money in/out, reason in/out, date in/out
+  ------> form to add/withdraw money, state amount, reason, resource, date
