@@ -5,14 +5,14 @@ import { Box } from "@material-ui/core";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <Box pt={10}>
       <Header />
-      <Box pt={2} style={{ height: "100vh" }}>
+      <Box pt={2} style={{ minHeight: "100vh" }}>
         <main>{children}</main>
       </Box>
 
       <Footer />
-    </div>
+    </Box>
   );
 };
 

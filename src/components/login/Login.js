@@ -36,7 +36,11 @@ const Login = () => {
       mx="auto"
       px={3}
       py={4}
-      style={{ backgroundColor: "rgba(255,255,255,.7)", borderRadius: "8px" }}
+      style={{
+        backgroundColor: "rgba(255,255,255,.7)",
+        borderRadius: "8px",
+        width: "90%",
+      }}
     >
       <form onSubmit={submitHandle}>
         <Typography variant="h2" color="primary">

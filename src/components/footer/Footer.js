@@ -13,7 +13,7 @@ const Footer = () => {
   };
   return (
     <footer>
-      <Box mt={4} mb={1}>
+      <Box mt={4}>
         <BottomNavigation value={value} onChange={handleChange}>
           <BottomNavigationAction
             label="Recents"

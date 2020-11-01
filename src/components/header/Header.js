@@ -74,7 +74,15 @@ const Header = () => {
     setShowNav(!showNav);
   };
   return (
-    <nav>
+    <nav
+      style={{
+        position: "fixed",
+        width: "100%",
+        maxWidth: "500px",
+        top: 0,
+        zIndex: 1000,
+      }}
+    >
       <AppBar position="static" style={{ padding: "8px 0" }}>
         <Box display="flex" alignItems="center" justifyContent="flex-end">
           <Button onClick={toggleDrawer}>
