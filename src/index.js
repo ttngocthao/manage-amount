@@ -1,4 +1,5 @@
 import React from "react";
+import { RecoilRoot } from "recoil";
 import ReactDOM from "react-dom";
 //import "./index.css";
 import App from "./App";
@@ -7,13 +8,16 @@ import { ThemeProvider } from "@material-ui/styles";
 import { theme } from "./materialUI.config";
 import * as serviceWorker from "./serviceWorker";
 //https://stoic-engelbart-88965c.netlify.app/
+// import Firebase from "firebase";
+// import { firebaseConfig } from "./firebase.config";
+// Firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
+    <RecoilRoot>
       <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+    </RecoilRoot>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

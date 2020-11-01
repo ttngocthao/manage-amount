@@ -1,7 +1,40 @@
-import React from "react";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Box,
+} from "@material-ui/core";
+import React, { useState } from "react";
+import ContactMailIcon from "@material-ui/icons/ContactMail";
 
-const footer = () => {
-  return <div>this is footer</div>;
+const Footer = () => {
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  return (
+    <footer>
+      <Box mt={4} mb={1}>
+        <BottomNavigation value={value} onChange={handleChange}>
+          <BottomNavigationAction
+            label="Recents"
+            value="recents"
+            icon={<ContactMailIcon />}
+          />
+          <BottomNavigationAction
+            label="Favorites"
+            value="favorites"
+            icon={<ContactMailIcon />}
+          />
+
+          <BottomNavigationAction
+            label="Folder"
+            value="folder"
+            icon={<ContactMailIcon />}
+          />
+        </BottomNavigation>
+      </Box>
+    </footer>
+  );
 };
 
-export default footer;
+export default Footer;

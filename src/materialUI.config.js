@@ -1,6 +1,14 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#55ccd4",
+    },
+    secondary: {
+      main: "#333",
+    },
+  },
   typography: {
     h1: {
       fontSize: "2rem",
@@ -24,5 +32,29 @@ const theme = createMuiTheme({
     },
   },
 });
-
+theme.overrides = {
+  MuiAvatar: {
+    colorDefault: {
+      backgroundColor: "white",
+    },
+  },
+  MuiBottomNavigation: {
+    root: {
+      backgroundColor: "rgb(85, 204, 212)",
+    },
+  },
+  MuiDrawer: {
+    paperAnchorLeft: {
+      width: "50%",
+      backgroundImage:
+        "linear-gradient(45deg ,rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
+    },
+  },
+  MuiListItem: {
+    container: {
+      width: "95%",
+      margin: "0 auto",
+    },
+  },
+};
 export { theme };
