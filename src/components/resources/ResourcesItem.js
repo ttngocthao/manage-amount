@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   IconButton,
   ListItem,
   ListItemAvatar,
@@ -37,11 +38,19 @@ const ResourcesItem = ({
         </Avatar>
       </ListItemAvatar>
       <ListItemText>
-        <Typography variant="h5" color="secondary">
-          {name} : £{totalAmount}
+        <Typography variant="h6" color="secondary">
+          {name}
         </Typography>
+        <Box my={1}>
+          <Typography variant="h3" color="secondary">
+            £{totalAmount}
+          </Typography>
+        </Box>
 
-        <Typography variant="body1" color="secondary">
+        <Typography
+          variant="body1"
+          style={{ color: "#777", fontSize: "0.8rem", padding: "4px 0 0" }}
+        >
           {updatedAt}
         </Typography>
       </ListItemText>

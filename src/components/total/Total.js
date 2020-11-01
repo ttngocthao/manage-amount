@@ -22,7 +22,7 @@ const Total = ({ totalAmount }) => {
         </Typography>
       </Box>
       <Box my={1}>
-        <Typography variant="h2" align="center" color="secondary">
+        <Typography variant="h1" align="center" color="secondary">
           £ {totalAmount}
         </Typography>
       </Box>
