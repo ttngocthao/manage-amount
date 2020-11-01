@@ -5,8 +5,10 @@
   -> material ui for styling //done
   -> toasting for pop up
   -> react skeleton for loading time
+  -> use recoil for state management
 2. Phase
   --> I: 3 views.
+  ------> login for myself only
   ------> dasboard with total, all resources with total amount
   ------> each resource shows total amount, money in/out, reason in/out, date in/out
   ------> form to add/withdraw money, state amount, reason, resource, date

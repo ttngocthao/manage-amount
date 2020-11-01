@@ -1,25 +1,25 @@
 import { List, ListItem, Typography } from "@material-ui/core";
 import ResourcesItem from "./ResourcesItem";
 import React from "react";
-const data = [
-  { name: "A", totalAmount: "B", updatedAt: "C" },
-  { name: "A", totalAmount: "B", updatedAt: "C" },
-  { name: "A", totalAmount: "B", updatedAt: "C" },
-  { name: "A", totalAmount: "B", updatedAt: "C" },
-  { name: "A", totalAmount: "B", updatedAt: "C" },
-];
-const ResourcesList = () => {
+
+const ResourcesList = ({ data, dataLoaded }) => {
+  // const { loaded, data } = useRecoilValue(resourcesState);
+  const viewResourcesHandle = (resourceId) => {
+    alert(resourceId);
+  };
   return (
     <List>
-      {data ? (
+      {dataLoaded && data ? (
         data.length > 0 ? (
           data.map((item, index) => {
             return (
               <ResourcesItem
-                key={index}
-                name={item.name}
-                totalAmount={item.totalAmount}
+                key={item.resourceId}
+                id={item.resourceId}
+                name={item.resourceName}
+                totalAmount={item.resourceTotalAmount}
                 updatedAt={item.updatedAt}
+                viewResourcesHandle={viewResourcesHandle}
               />
             );
           })
