@@ -1,11 +1,15 @@
 import { List, ListItem, Typography } from "@material-ui/core";
 import ResourcesItem from "./ResourcesItem";
+import { useHistory, useLocation } from "react-router-dom";
 import React from "react";
 
 const ResourcesList = ({ data, dataLoaded }) => {
+  const history = useHistory();
+  const location = useLocation();
   // const { loaded, data } = useRecoilValue(resourcesState);
   const viewResourcesHandle = (resourceId) => {
-    alert(resourceId);
+    const url = location.pathname;
+    history.push(`${url}/${resourceId}`);
   };
   return (
     <List>

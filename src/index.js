@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@material-ui/styles";
 import { theme } from "./materialUI.config";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 //https://stoic-engelbart-88965c.netlify.app/
 // import Firebase from "firebase";
@@ -15,7 +16,9 @@ import * as serviceWorker from "./serviceWorker";
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <RecoilRoot>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </RecoilRoot>
   </ThemeProvider>,
   document.getElementById("root")

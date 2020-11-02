@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Dashboard from "./views/Dashboard";
 import Home from "./views/Home";
-
+import Routing from "./Routing";
 const ProtectRoute = ({ children, ...rest }) => {
   const globalAuthState = useRecoilValue(authState);
   return <Router {...rest}>{globalAuthState ? children : <Home />}</Router>;
@@ -39,18 +39,9 @@ function App() {
           "linear-gradient(rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
       }}
     >
-      <Router>
-        <Layout>
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <ProtectRoute exact path="/dashboard">
-              <Dashboard />
-            </ProtectRoute>
-          </Switch>
-        </Layout>
-      </Router>
+      <Layout>
+        <Routing />
+      </Layout>
     </div>
   );
 }
