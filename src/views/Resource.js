@@ -1,4 +1,7 @@
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Avatar,
   Box,
   Button,
@@ -15,6 +18,7 @@ import { useParams } from "react-router-dom";
 import { getResourceDetails } from "../actions/resources";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 const dummyData = [
   {
     amount: 200,
@@ -40,10 +44,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#4CB3B2",
     marginLeft: "auto",
   },
+
   moneyOut: {
     backgroundColor: "#FE7E80",
   },
+  expanded: {
+    marginLeft: "auto",
+  },
 }));
+
 const Resource = ({ props }) => {
   const styles = useStyles();
   const { id } = useParams();
@@ -114,13 +123,9 @@ const Resource = ({ props }) => {
                 Add Record
               </Button>
 
-              <Box my={2}>
-                <Typography variant="h2" color="primary">
-                  {dataName && dataName}
-                </Typography>
-                <Typography variant="h1" color="primary">
-                  £{totalAmount}
-                </Typography>
+              <Box my={2} textAlign="center">
+                <Typography variant="h2">{dataName && dataName}</Typography>
+                <Typography variant="h1">£{totalAmount}</Typography>
               </Box>
             </Box>
           </Container>
@@ -128,28 +133,58 @@ const Resource = ({ props }) => {
             {data &&
               data.map((item, index) => {
                 return (
-                  <ListItem key={index}>
-                    <Chip
+                  <ListItem
+                    key={index}
+                    style={
+                      item.moneyIn
+                        ? { display: "flex", justifyContent: "flex-end" }
+                        : { display: "flex", justifyContent: "flex-start" }
+                    }
+                  >
+                    <Accordion
                       className={`${styles.moneyAction} ${
                         item.moneyIn ? styles.moneyIn : styles.moneyOut
                       }`}
-                      avatar={
-                        <Avatar style={{ backgroundColor: "white" }}>
-                          {item.moneyIn ? (
-                            <AddCircleIcon />
-                          ) : (
-                            <RemoveCircleIcon />
-                          )}
-                        </Avatar>
-                      }
-                      label={`£${item.amount} - ${item.reason}`}
-                      // clickable
-                      color="primary"
-                      //onDelete={handleDelete}
-                      // deleteIcon={<DoneIcon />}
-                      variant="outlined"
-                    />
+                    >
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography>£{item.amount}</Typography>
+                        <Typography>{item.createdAt}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails
+                        className={`${styles.moneyAction} ${
+                          item.moneyIn ? styles.moneyIn : styles.moneyOut
+                        }`}
+                      >
+                        <Typography>{item.reason}</Typography>
+                      </AccordionDetails>
+                    </Accordion>
                   </ListItem>
+                  // <ListItem key={index}>
+                  //   <Chip
+                  //     className={`${styles.moneyAction} ${
+                  //       item.moneyIn ? styles.moneyIn : styles.moneyOut
+                  //     }`}
+                  //     avatar={
+                  //       <Avatar style={{ backgroundColor: "white" }}>
+                  //         {item.moneyIn ? (
+                  //           <AddCircleIcon />
+                  //         ) : (
+                  //           <RemoveCircleIcon />
+                  //         )}
+                  //       </Avatar>
+                  //     }
+                  //     label={`£${item.amount} - ${item.reason}`}
+                  //     // clickable
+                  //     color="primary"
+                  //     //onDelete={handleDelete}
+                  //     // deleteIcon={<DoneIcon />}
+                  //     variant="outlined"
+                  //   />
+                  // </ListItem>
                 );
               })}
           </List>

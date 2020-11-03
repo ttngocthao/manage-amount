@@ -18,7 +18,7 @@ const Total = ({ totalAmount }) => {
       </Box>
       <Box my={1}>
         <Typography variant="h3" align="center" color="secondary">
-          Name
+          Thao Truong
         </Typography>
       </Box>
       <Box my={1}>

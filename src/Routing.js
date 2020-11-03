@@ -22,9 +22,11 @@ const Routing = () => {
         path="/dashboard"
         component={Dashboard}
       ></PrivateRoute>
-      <Route exact path="/dashboard/:id">
-        <Resource />
-      </Route>
+      <PrivateRoute
+        exact
+        path="/dashboard/:id"
+        component={Resource}
+      ></PrivateRoute>
     </Switch>
   );
 };

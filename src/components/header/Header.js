@@ -42,12 +42,6 @@ const Header = () => {
       protectedPath: true,
     },
     {
-      label: "View Resource",
-      icon: <DashboardIcon />,
-      path: "/dashboard/12345567890",
-      protectedPath: true,
-    },
-    {
       label: "Profile",
       icon: <AccountBoxIcon />,
       path: "/profile",
