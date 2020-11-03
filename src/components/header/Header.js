@@ -22,6 +22,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import FormatAlignRightIcon from "@material-ui/icons/FormatAlignRight";
 import { userLogOut } from "../../actions/auth";
 const Header = () => {
+  const history = useHistory();
   const [showNav, setShowNav] = useState(false);
   const [globalAuthState, setGlobalAuthState] = useRecoilState(authState);
   //destructure object
@@ -41,6 +42,12 @@ const Header = () => {
       protectedPath: true,
     },
     {
+      label: "View Resource",
+      icon: <DashboardIcon />,
+      path: "/dashboard/12345567890",
+      protectedPath: true,
+    },
+    {
       label: "Profile",
       icon: <AccountBoxIcon />,
       path: "/profile",
@@ -53,7 +60,7 @@ const Header = () => {
       protectedPath: currentUserId ? true : false,
     },
   ];
-  const navItemClickHandle = async (action) => {
+  const navItemClickHandle = async (action, path) => {
     if (action === "Logout") {
       console.log("logout");
       const res = await userLogOut();
@@ -64,11 +71,9 @@ const Header = () => {
       console.log("login");
       //push to home page
     } else {
-      console.log(
-        "action is not defined. please define action in the function"
-      );
-      console.log("go to defined path");
+      history.push(path);
     }
+    setShowNav(false);
   };
   const toggleDrawer = () => {
     setShowNav(!showNav);
@@ -103,7 +108,7 @@ const Header = () => {
                   <Fragment>
                     <ListItem
                       button
-                      onClick={() => navItemClickHandle(item.label)}
+                      onClick={() => navItemClickHandle(item.label, item.path)}
                     >
                       <ListItemIcon>{item.icon}</ListItemIcon>
                       <ListItemText primary={item.label} />
@@ -115,7 +120,9 @@ const Header = () => {
                     <Fragment>
                       <ListItem
                         button
-                        onClick={() => navItemClickHandle(item.label)}
+                        onClick={() =>
+                          navItemClickHandle(item.label, item.path)
+                        }
                       >
                         <ListItemIcon>{item.icon}</ListItemIcon>
                         <ListItemText primary={item.label} />
