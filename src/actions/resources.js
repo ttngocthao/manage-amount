@@ -41,7 +41,7 @@ export const getResourceDetails = async (userId, resourceId, name) => {
     }
 
     res.forEach((doc) => {
-      if (doc.amount > 0) {
+      if (doc.data().amount > 0) {
         data.push({
           moneyIn: doc.data().moneyIn,
           amount: doc.data().amount,

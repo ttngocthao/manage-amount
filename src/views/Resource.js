@@ -225,7 +225,6 @@ const Resource = () => {
         </Typography>
       )}
       <SwipeableDrawer
-        style={{ width: "80%", maxWidth: "500px" }}
         anchor={"right"}
         open={formState.showForm}
         onClose={() => setFormState({ ...formState, showForm: false })}
@@ -237,6 +236,9 @@ const Resource = () => {
               backgroundColor: "rgba(255,255,255,.8)",
               padding: "24px",
               borderRadius: "9px",
+              width: "100%",
+              maxWidth: "300px",
+              margin: "24px auto",
             }}
           >
             <Box my={2}>
