@@ -17,7 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useLocation, useParams } from "react-router-dom";
-import { getResourceDetails, addNewRecord } from "../actions/resources";
+import { getResourceDetails, addResourceDetails } from "../actions/resources";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
@@ -50,11 +50,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Resource = () => {
+const Resource = ({ props }) => {
   const styles = useStyles();
   const { id } = useParams();
   const { search } = useLocation();
-  const currentUserId = localStorage.getItem("uid");
+
   const [state, setState] = useState({
     dataLoaded: false,
     data: null,
@@ -71,19 +71,17 @@ const Resource = () => {
   const { dataLoaded, data, dataName, totalAmount } = state;
   useEffect(() => {
     (async () => {
-      if (currentUserId) {
-        const res = await getResourceDetails(currentUserId, id, dataName);
-        if (res.status === 200) {
-          setState({
-            ...state,
-            dataLoaded: true,
-            data: res.data,
-            totalAmount: calculateTotalAmount(res.data),
-          });
-          console.log(res);
-        } else {
-          console.log(res);
-        }
+      const res = await getResourceDetails(id, dataName);
+      if (res.status === 200) {
+        setState({
+          ...state,
+          dataLoaded: true,
+          data: res.data,
+          totalAmount: calculateTotalAmount(res.data),
+        });
+        console.log(res);
+      } else {
+        console.log(res);
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -112,13 +110,13 @@ const Resource = () => {
   };
 
   const addNewRecordHandle = async () => {
-    //console.log("input", formState);
-    // const newRecord = {
-    //   amount: Number(formState.amount),
-    //   moneyIn: formState.moneyIn,
-    //   reason: formState.reason,
-    //   createdAt: new Date().toDateString(),
-    // };
+    console.log("input", formState);
+    const newRecord = {
+      amount: Number(formState.amount),
+      moneyIn: formState.moneyIn,
+      reason: formState.reason,
+      createdAt: new Date().toDateString(),
+    };
     let reCalculateTotalAmount;
     if (formState.moneyIn) {
       reCalculateTotalAmount = Number(totalAmount) + Number(formState.amount);
@@ -126,25 +124,14 @@ const Resource = () => {
       reCalculateTotalAmount = Number(totalAmount) - Number(formState.amount);
     }
     console.log("check", reCalculateTotalAmount);
-    const res = await addNewRecord(
-      dataName,
+    const res = await addResourceDetails(
       id,
-      formState.amount,
-      currentUserId,
-      formState.moneyIn,
-      formState.reason,
+      newRecord,
       Math.floor(reCalculateTotalAmount * 1000) / 1000
     );
 
-    //update ui
+    console.log("re", Math.floor(reCalculateTotalAmount * 1000) / 1000);
     if (res.status === 200) {
-      const newRecord = {
-        moneyIn: formState.moneyIn,
-        amount: formState.amount,
-        reason: formState.reason,
-        createdAt: "just now",
-      };
-      console.log("res", res);
       setState({
         ...state,
         data: [newRecord, ...data],

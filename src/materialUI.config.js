@@ -6,7 +6,7 @@ const theme = createMuiTheme({
       main: "#55ccd4",
     },
     secondary: {
-      main: "#333",
+      main: "#fe6786 ",
     },
   },
   typography: {
@@ -44,12 +44,18 @@ theme.overrides = {
     },
   },
   MuiDrawer: {
-    paperAnchorLeft: {
+    paper: {
       width: "50%",
       maxWidth: "300px",
       backgroundImage:
         "linear-gradient(45deg ,rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
     },
+    // paperAnchorLeft: {
+    //   width: "50%",
+    //   maxWidth: "300px",
+    //   backgroundImage:
+    //     "linear-gradient(45deg ,rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
+    // },
   },
   MuiListItem: {
     container: {

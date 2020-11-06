@@ -1,35 +1,31 @@
 /* eslint-disable no-unreachable */
 //import "./App.css";
 import React, { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { authState } from "./recoil/auth";
 import { Auth } from "./firebase";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
-import Dashboard from "./views/Dashboard";
-import Home from "./views/Home";
+
 import Routing from "./Routing";
-const ProtectRoute = ({ children, ...rest }) => {
-  const globalAuthState = useRecoilValue(authState);
-  return <Router {...rest}>{globalAuthState ? children : <Home />}</Router>;
-};
 
 function App() {
   const setAuthState = useSetRecoilState(authState);
-  const globalAuthState = useRecoilValue(authState);
+
   useEffect(() => {
     Auth.onAuthStateChanged((user) => {
       if (user) {
+        localStorage.setItem("uid", user.uid);
         setAuthState({
           currentUserEmail: user.email,
           currentUserId: user.uid,
         });
-        console.log("user has signed in", globalAuthState);
+        //  console.log("user has signed in");
       } else {
         console.log("user not sign in");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div

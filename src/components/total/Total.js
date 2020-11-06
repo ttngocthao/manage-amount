@@ -17,13 +17,13 @@ const Total = ({ totalAmount }) => {
         />
       </Box>
       <Box my={1}>
-        <Typography variant="h3" align="center" color="secondary">
+        <Typography variant="h3" align="center">
           Thao Truong
         </Typography>
       </Box>
       <Box my={1}>
-        <Typography variant="h1" align="center" color="secondary">
-          £ {totalAmount}
+        <Typography variant="h1" align="center">
+          £ {totalAmount.toFixed(2)}
         </Typography>
       </Box>
     </Box>

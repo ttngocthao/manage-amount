@@ -19,14 +19,20 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
-import FormatAlignRightIcon from "@material-ui/icons/FormatAlignRight";
+
+import { theme } from "../../materialUI.config";
+
 import { userLogOut } from "../../actions/auth";
-const Header = () => {
+const Header = ({ showBackBtn }) => {
   const history = useHistory();
+
+  //  Object.fromEntries(new URLSearchParams(search.replace("?", "")))
   const [showNav, setShowNav] = useState(false);
+
   const [globalAuthState, setGlobalAuthState] = useRecoilState(authState);
   //destructure object
   const { currentUserId } = globalAuthState || { currentUserId: "" };
+
   const navData = [
     { label: "Home", icon: <HomeIcon />, path: "/", protectedPath: false },
     {
@@ -54,6 +60,7 @@ const Header = () => {
       protectedPath: currentUserId ? true : false,
     },
   ];
+
   const navItemClickHandle = async (action, path) => {
     if (action === "Logout") {
       console.log("logout");
@@ -69,9 +76,11 @@ const Header = () => {
     }
     setShowNav(false);
   };
+
   const toggleDrawer = () => {
     setShowNav(!showNav);
   };
+
   return (
     <nav
       style={{
@@ -83,8 +92,27 @@ const Header = () => {
       }}
     >
       <AppBar position="static" style={{ padding: "8px 0" }}>
-        <Box display="flex" alignItems="center" justifyContent="flex-end">
-          <Button onClick={toggleDrawer}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent={showBackBtn ? "space-between" : "flex-end"}
+        >
+          {showBackBtn && (
+            <Button
+              onClick={() => {
+                history.push("/dashboard");
+              }}
+              aria-label="back to dashboard"
+              style={{
+                backgroundColor: theme.palette.success.main,
+                marginLeft: theme.spacing(2),
+                color: "white",
+              }}
+            >
+              BACK
+            </Button>
+          )}
+          <Button aria-label="navigation" onClick={toggleDrawer}>
             <MenuIcon fontSize="large" />
           </Button>
         </Box>
