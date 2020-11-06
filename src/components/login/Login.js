@@ -39,7 +39,7 @@ const Login = () => {
       style={{
         backgroundColor: "rgba(255,255,255,.7)",
         borderRadius: "8px",
-        width: "90%",
+        width: "80%",
       }}
     >
       <form onSubmit={submitHandle}>

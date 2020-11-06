@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
-import DeleteIcon from "@material-ui/icons/Delete";
+
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,20 +31,19 @@ const ResourcesItem = ({
 }) => {
   const styles = useStyles();
   return (
-    <ListItem onClick={() => viewResourcesHandle(id)} className={styles.wrap}>
+    <ListItem
+      onClick={() => viewResourcesHandle(id, name)}
+      className={styles.wrap}
+    >
       <ListItemAvatar>
         <Avatar>
           <CreditCardIcon color="primary" />
         </Avatar>
       </ListItemAvatar>
       <ListItemText>
-        <Typography variant="h6" color="secondary">
-          {name}
-        </Typography>
+        <Typography variant="h6">{name}</Typography>
         <Box my={1}>
-          <Typography variant="h3" color="secondary">
-            £{totalAmount}
-          </Typography>
+          <Typography variant="h3">£{totalAmount.toFixed(2)}</Typography>
         </Box>
 
         <Typography

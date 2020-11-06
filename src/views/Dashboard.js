@@ -8,7 +8,7 @@ const Dashboard = () => {
   const [dashboardState, setdashboardState] = useState({
     dataLoaded: false,
     data: null,
-    totalAmount: null,
+    totalAmount: 0,
   });
   const { dataLoaded, data, totalAmount } = dashboardState;
   useEffect(() => {
@@ -30,10 +30,11 @@ const Dashboard = () => {
         console.log(res);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Box>
-      <Total totalAmount={totalAmount ? totalAmount : "Loading..."} />
+      <Total totalAmount={totalAmount} />
       <ResourcesList data={data} dataLoaded={dataLoaded} />
     </Box>
   );

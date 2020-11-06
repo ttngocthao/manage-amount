@@ -7,9 +7,10 @@ const ResourcesList = ({ data, dataLoaded }) => {
   const history = useHistory();
   const location = useLocation();
   // const { loaded, data } = useRecoilValue(resourcesState);
-  const viewResourcesHandle = (resourceId) => {
+  const viewResourcesHandle = async (resourceId, name) => {
     const url = location.pathname;
-    history.push(`${url}/${resourceId}`);
+
+    history.push(`${url}/${resourceId}?name=${name}`);
   };
   return (
     <List>
