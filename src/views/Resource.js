@@ -112,13 +112,6 @@ const Resource = () => {
   };
 
   const addNewRecordHandle = async () => {
-    //console.log("input", formState);
-    // const newRecord = {
-    //   amount: Number(formState.amount),
-    //   moneyIn: formState.moneyIn,
-    //   reason: formState.reason,
-    //   createdAt: new Date().toDateString(),
-    // };
     let reCalculateTotalAmount;
     if (formState.moneyIn) {
       reCalculateTotalAmount = Number(totalAmount) + Number(formState.amount);
@@ -232,7 +225,7 @@ const Resource = () => {
         </Typography>
       )}
       <SwipeableDrawer
-        style={{ width: "80%", maxWidth: "400px" }}
+        style={{ width: "80%", maxWidth: "500px" }}
         anchor={"right"}
         open={formState.showForm}
         onClose={() => setFormState({ ...formState, showForm: false })}
