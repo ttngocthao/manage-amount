@@ -1,11 +1,15 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import About from "./views/About";
-import Dashboard from "./views/Dashboard";
-import Home from "./views/Home";
+//import About from "./views/About";
+//import Dashboard from "./views/Dashboard";
+//import Home from "./views/Home";
+
 import Resource from "./views/Resource";
 import { authState } from "./recoil/auth";
 import { useRecoilValue } from "recoil";
+const Home = lazy(() => import("./views/Home"));
+const About = lazy(() => import("./views/About"));
+const Dashboard = lazy(() => import("./views/Dashboard"));
 
 const Routing = () => {
   return (
