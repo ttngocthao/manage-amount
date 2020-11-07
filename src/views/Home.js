@@ -1,8 +1,11 @@
-import React from "react";
-import Login from "../components/login/Login";
+import React, { lazy } from "react";
+//import Login from "../components/login/Login";
 import { useRecoilValue } from "recoil";
 import { authState } from "../recoil/auth";
 import { Typography, Box } from "@material-ui/core";
+
+const Login = lazy(() => import("../components/login/Login"));
+
 const Home = () => {
   const globalAuthState = useRecoilValue(authState);
   const { currentUserId } = globalAuthState || { currentUserId: "" };

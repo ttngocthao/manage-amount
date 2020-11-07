@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Header from "../header/Header";
-import Footer from "../footer/Footer";
+//import Header from "../header/Header";
+//import Footer from "../footer/Footer";
 import { Box } from "@material-ui/core";
+
+const Header = lazy(() => import("../header/Header"));
+const Footer = lazy(() => import("../footer/Footer"));
 
 const Layout = ({ children }) => {
   const [showBackBtn, setShowBackBtn] = useState(false);

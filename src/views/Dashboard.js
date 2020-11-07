@@ -1,8 +1,14 @@
 import { Box } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import ResourcesList from "../components/resources/ResourcesList";
-import Total from "../components/total/Total";
+import React, { lazy, useEffect, useState } from "react";
+//import ResourcesList from "../components/resources/ResourcesList";
+//import Total from "../components/total/Total";
+
 import { getAllResources } from "../actions/resources";
+
+const ResourcesList = lazy(() =>
+  import("../components/resources/ResourcesList")
+);
+const Total = lazy(() => import("../components/total/Total"));
 
 const Dashboard = () => {
   const [dashboardState, setdashboardState] = useState({

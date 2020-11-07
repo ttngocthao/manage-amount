@@ -1,7 +1,9 @@
 import { List, ListItem, Typography } from "@material-ui/core";
-import ResourcesItem from "./ResourcesItem";
+//import ResourcesItem from "./ResourcesItem";
 import { useHistory, useLocation } from "react-router-dom";
-import React from "react";
+import React, { lazy } from "react";
+
+const ResourcesItem = lazy(() => import("./ResourcesItem"));
 
 const ResourcesList = ({ data, dataLoaded }) => {
   const history = useHistory();
