@@ -8,6 +8,7 @@ const Home = () => {
   const { currentUserId } = globalAuthState || { currentUserId: "" };
   return (
     <div>
+      <Typography variant="h1">Manage Amount</Typography>
       {currentUserId ? <Typography>Welcome back</Typography> : <Login />}
     </div>
   );
