@@ -25,7 +25,9 @@ const Dashboard = () => {
           (preValue, currentItem) => preValue + currentItem.resourceTotalAmount,
           0
         );
+        //set atResourcePage at recoil to false
 
+        //
         setdashboardState({
           ...dashboardState,
           dataLoaded: true,

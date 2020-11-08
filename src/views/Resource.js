@@ -71,6 +71,7 @@ const Resource = () => {
   const { dataLoaded, data, dataName, totalAmount } = state;
   useEffect(() => {
     (async () => {
+      window.scrollTo(0, 0);
       if (currentUserId) {
         const res = await getResourceDetails(currentUserId, id, dataName);
         if (res.status === 200) {
@@ -80,7 +81,7 @@ const Resource = () => {
             data: res.data,
             totalAmount: calculateTotalAmount(res.data),
           });
-          console.log(res);
+          // console.log(res);
         } else {
           console.log(res);
         }
@@ -118,11 +119,11 @@ const Resource = () => {
     } else {
       reCalculateTotalAmount = Number(totalAmount) - Number(formState.amount);
     }
-    console.log("check", reCalculateTotalAmount);
+    // console.log("check", reCalculateTotalAmount);
     const res = await addNewRecord(
       dataName,
       id,
-      formState.amount,
+      Number(formState.amount),
       currentUserId,
       formState.moneyIn,
       formState.reason,

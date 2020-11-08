@@ -10,25 +10,29 @@ import {
   SwipeableDrawer,
 } from "@material-ui/core";
 import { useRecoilState } from "recoil";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { authState } from "../../recoil/auth";
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import InfoIcon from "@material-ui/icons/Info";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
-
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { resourcesState } from "../../recoil/resources";
 import { theme } from "../../materialUI.config";
 
 import { userLogOut } from "../../actions/auth";
-const Header = ({ showBackBtn }) => {
+const Header = () => {
   const history = useHistory();
+  const location = useLocation();
+  const showBackBtn = useRecoilValue(resourcesState).atResourceDetailsPage;
+  const setShowBackBtn = useSetRecoilState(resourcesState);
 
   //  Object.fromEntries(new URLSearchParams(search.replace("?", "")))
   const [showNav, setShowNav] = useState(false);
-
+  //const [showBackBtn, setShowBackBtn] = useState(false);
   const [globalAuthState, setGlobalAuthState] = useRecoilState(authState);
   //destructure object
   const { currentUserId } = globalAuthState || { currentUserId: "" };
@@ -75,11 +79,22 @@ const Header = ({ showBackBtn }) => {
       history.push(path);
     }
     setShowNav(false);
+    setShowBackBtn((preState) => {
+      return { ...preState, atResourceDetailsPage: false };
+    });
   };
 
   const toggleDrawer = () => {
     setShowNav(!showNav);
   };
+
+  useEffect(() => {
+    // if (location.pathname.includes("/dashboard") && location.search !== "") {
+    //   setShowBackBtn(true);
+    // }
+    console.log("location", location);
+    console.log("recoil", showBackBtn);
+  }, []);
 
   return (
     <nav
@@ -100,6 +115,9 @@ const Header = ({ showBackBtn }) => {
           {showBackBtn && (
             <Button
               onClick={() => {
+                setShowBackBtn((preState) => {
+                  return { ...preState, atResourceDetailsPage: false };
+                });
                 history.push("/dashboard");
               }}
               aria-label="back to dashboard"

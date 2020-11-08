@@ -8,17 +8,9 @@ const Header = lazy(() => import("../header/Header"));
 const Footer = lazy(() => import("../footer/Footer"));
 
 const Layout = ({ children }) => {
-  const [showBackBtn, setShowBackBtn] = useState(false);
-  const { pathname } = useLocation();
-  useEffect(() => {
-    if (pathname.includes("/dashboard") && pathname !== "/dashboard") {
-      setShowBackBtn(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <Box pt={10}>
-      <Header showBackBtn={showBackBtn} />
+      <Header />
       <Box pt={2} style={{ minHeight: "100vh" }}>
         <main>{children}</main>
       </Box>
