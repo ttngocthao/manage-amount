@@ -8,6 +8,8 @@ import { ThemeProvider } from "@material-ui/styles";
 import { theme } from "./materialUI.config";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
+import { Box, Container, Typography } from "@material-ui/core";
+import SpinningImg from "./images/cat-spinner.gif";
 //https://stoic-engelbart-88965c.netlify.app/
 // import Firebase from "firebase";
 // import { firebaseConfig } from "./firebase.config";
@@ -17,7 +19,25 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <RecoilRoot>
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <Container>
+              <Box my={4} px={3}>
+                <Typography variant="h1">Manage Amount</Typography>
+              </Box>
+              <img
+                alt="loading gif"
+                src={SpinningImg}
+                style={{
+                  display: "block",
+                  margin: "0 auto",
+                  maxWidth: "300px",
+                  width: "100%",
+                }}
+              />
+            </Container>
+          }
+        >
           <App />
         </Suspense>
       </Router>
