@@ -1,9 +1,24 @@
-import { Box, Button, TextField, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  makeStyles,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { userLogIn } from "../../actions/auth";
-//import { theme } from "../../materialUI.config";
+
+const useStyles = makeStyles((theme) => ({
+  formWrap: {
+    backgroundColor: "rgba(255,255,255,.7)",
+    borderRadius: "8px",
+    width: "80%",
+  },
+}));
+
 const Login = () => {
+  const styles = useStyles();
   const history = useHistory();
   const [inputVals, setInputVals] = useState({
     email: "",
@@ -36,11 +51,7 @@ const Login = () => {
       mx="auto"
       px={3}
       py={4}
-      style={{
-        backgroundColor: "rgba(255,255,255,.7)",
-        borderRadius: "8px",
-        width: "80%",
-      }}
+      className={styles.formWrap}
     >
       <form onSubmit={submitHandle}>
         <Typography variant="h2" color="primary">

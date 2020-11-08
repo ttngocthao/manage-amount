@@ -1,5 +1,3 @@
-/* eslint-disable no-unreachable */
-//import "./App.css";
 import React, { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { authState } from "./recoil/auth";
@@ -8,8 +6,15 @@ import { Auth } from "./firebase";
 import Layout from "./components/layout/Layout";
 
 import Routing from "./Routing";
-
+import { makeStyles } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+  appBkg: {
+    backgroundImage:
+      "linear-gradient(rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
+  },
+}));
 function App() {
+  const styles = useStyles();
   const setAuthState = useSetRecoilState(authState);
 
   useEffect(() => {
@@ -28,13 +33,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div
-      className="App"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
-      }}
-    >
+    <div className={styles.appBkg}>
       <Layout>
         <Routing />
       </Layout>

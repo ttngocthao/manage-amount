@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  makeStyles,
   SwipeableDrawer,
 } from "@material-ui/core";
 import { useRecoilState } from "recoil";
@@ -24,7 +25,25 @@ import { resourcesState } from "../../recoil/resources";
 import { theme } from "../../materialUI.config";
 
 import { userLogOut } from "../../actions/auth";
+
+const useStyles = makeStyles((theme) => ({
+  nav: {
+    position: "fixed",
+    width: "100%",
+    maxWidth: "500px",
+    top: 0,
+    zIndex: 1000,
+  },
+  appBar: { padding: theme.spacing(1, 0) },
+  backBtn: {
+    backgroundColor: theme.palette.success.main,
+    marginLeft: theme.spacing(2),
+    color: "white",
+  },
+}));
+
 const Header = () => {
+  const styles = useStyles();
   const history = useHistory();
   const location = useLocation();
   const showBackBtn = useRecoilValue(resourcesState).atResourceDetailsPage;
@@ -97,16 +116,8 @@ const Header = () => {
   }, []);
 
   return (
-    <nav
-      style={{
-        position: "fixed",
-        width: "100%",
-        maxWidth: "500px",
-        top: 0,
-        zIndex: 1000,
-      }}
-    >
-      <AppBar position="static" style={{ padding: "8px 0" }}>
+    <nav className={styles.nav}>
+      <AppBar position="static" className={styles.appBar}>
         <Box
           display="flex"
           alignItems="center"
@@ -121,11 +132,6 @@ const Header = () => {
                 history.push("/dashboard");
               }}
               aria-label="back to dashboard"
-              style={{
-                backgroundColor: theme.palette.success.main,
-                marginLeft: theme.spacing(2),
-                color: "white",
-              }}
             >
               BACK
             </Button>

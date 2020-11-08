@@ -30,7 +30,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     minWidth: "300px",
   },
-
+  addRecordBtn: { color: "white", fontSize: "3rem" },
+  addRecordForm: {
+    backgroundColor: "rgba(255,255,255,.8)",
+    padding: theme.spacing(3),
+    borderRadius: "9px",
+    width: "100%",
+    maxWidth: "300px",
+    margin: `${theme.spacing(3)}px auto`,
+  },
   moneyIn: {
     backgroundColor: "rgba(	76,179,178,.8)",
     marginLeft: "auto",
@@ -171,7 +179,7 @@ const Resource = () => {
                 aria-label="add new record"
                 color="primary"
               >
-                <AddCircleIcon style={{ color: "white", fontSize: "3rem" }} />
+                <AddCircleIcon className={styles.addRecordBtn} />
               </IconButton>
               <Box my={2} textAlign="center">
                 <Typography variant="h2">{dataName && dataName}</Typography>
@@ -232,16 +240,7 @@ const Resource = () => {
         onOpen={() => setFormState({ ...formState, showForm: true })}
       >
         <Box p={2}>
-          <form
-            style={{
-              backgroundColor: "rgba(255,255,255,.8)",
-              padding: "24px",
-              borderRadius: "9px",
-              width: "100%",
-              maxWidth: "300px",
-              margin: "24px auto",
-            }}
-          >
+          <form className={styles.addRecordForm}>
             <Box my={2}>
               <Typography variant="h4">Add new record</Typography>
             </Box>
