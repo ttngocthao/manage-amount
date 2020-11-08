@@ -23,18 +23,8 @@ ReactDOM.render(
           fallback={
             <Container>
               <Box my={4} px={3}>
-                <Typography variant="h1">Manage Amount</Typography>
+                <Typography variant="h1">App is loading</Typography>
               </Box>
-              <img
-                alt="loading gif"
-                src={SpinningImg}
-                style={{
-                  display: "block",
-                  margin: "0 auto",
-                  maxWidth: "300px",
-                  width: "100%",
-                }}
-              />
             </Container>
           }
         >
