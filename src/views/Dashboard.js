@@ -15,7 +15,7 @@ const renderLoader = () => <p>Loading</p>;
 const Dashboard = () => {
   const [dashboardState, setdashboardState] = useState({
     dataLoaded: false,
-    data: null,
+    data: [],
     totalAmount: 0,
   });
   const { dataLoaded, data, totalAmount } = dashboardState;
