@@ -1,5 +1,5 @@
 import { Box } from "@material-ui/core";
-import React, { lazy, useEffect, useState } from "react";
+import React, { lazy, useEffect, useState, Suspense } from "react";
 //import ResourcesList from "../components/resources/ResourcesList";
 //import Total from "../components/total/Total";
 
@@ -9,6 +9,8 @@ const ResourcesList = lazy(() =>
   import("../components/resources/ResourcesList")
 );
 const Total = lazy(() => import("../components/total/Total"));
+
+const renderLoader = () => <p>Loading</p>;
 
 const Dashboard = () => {
   const [dashboardState, setdashboardState] = useState({
@@ -41,10 +43,12 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <Box>
-      <Total totalAmount={totalAmount} />
-      <ResourcesList data={data} dataLoaded={dataLoaded} />
-    </Box>
+    <Suspense fallback={renderLoader()}>
+      <Box>
+        <Total totalAmount={totalAmount} />
+        <ResourcesList data={data} dataLoaded={dataLoaded} />
+      </Box>{" "}
+    </Suspense>
   );
 };
 

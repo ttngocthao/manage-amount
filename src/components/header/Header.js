@@ -11,9 +11,9 @@ import {
   SwipeableDrawer,
 } from "@material-ui/core";
 import { useRecoilState } from "recoil";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { authState } from "../../recoil/auth";
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import InfoIcon from "@material-ui/icons/Info";
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -22,7 +22,6 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { resourcesState } from "../../recoil/resources";
-import { theme } from "../../materialUI.config";
 
 import { userLogOut } from "../../actions/auth";
 
@@ -45,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const styles = useStyles();
   const history = useHistory();
-  const location = useLocation();
+
   const showBackBtn = useRecoilValue(resourcesState).atResourceDetailsPage;
   const setShowBackBtn = useSetRecoilState(resourcesState);
 
@@ -86,7 +85,6 @@ const Header = () => {
 
   const navItemClickHandle = async (action, path) => {
     if (action === "Logout") {
-      console.log("logout");
       const res = await userLogOut();
       if (res.status === 200) {
         setGlobalAuthState(null);
@@ -107,14 +105,6 @@ const Header = () => {
     setShowNav(!showNav);
   };
 
-  useEffect(() => {
-    // if (location.pathname.includes("/dashboard") && location.search !== "") {
-    //   setShowBackBtn(true);
-    // }
-    console.log("location", location);
-    console.log("recoil", showBackBtn);
-  }, []);
-
   return (
     <nav className={styles.nav}>
       <AppBar position="static" className={styles.appBar}>
@@ -132,6 +122,7 @@ const Header = () => {
                 history.push("/dashboard");
               }}
               aria-label="back to dashboard"
+              className={styles.backBtn}
             >
               BACK
             </Button>

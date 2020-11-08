@@ -1,7 +1,5 @@
-import React, { lazy, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-//import Header from "../header/Header";
-//import Footer from "../footer/Footer";
+import React, { lazy, Suspense } from "react";
+
 import { Box, makeStyles } from "@material-ui/core";
 
 const Header = lazy(() => import("../header/Header"));
@@ -13,17 +11,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const renderLoader = () => <p>Loading</p>;
+
 const Layout = ({ children }) => {
   const styles = useStyles();
   return (
-    <Box pt={10}>
-      <Header />
-      <Box pt={2} className={styles.main}>
-        <main>{children}</main>
-      </Box>
+    <Suspense fallback={renderLoader()}>
+      <Box pt={10}>
+        <Header />
+        <Box pt={2} className={styles.main}>
+          <main>{children}</main>
+        </Box>
 
-      <Footer />
-    </Box>
+        <Footer />
+      </Box>
+    </Suspense>
   );
 };
 

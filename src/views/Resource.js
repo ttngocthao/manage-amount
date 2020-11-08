@@ -14,7 +14,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useLocation, useParams } from "react-router-dom";
 import { getResourceDetails, addNewRecord } from "../actions/resources";
@@ -57,6 +57,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+const renderLoader = () => <p>Loading</p>;
 
 const Resource = () => {
   const styles = useStyles();
@@ -163,137 +165,142 @@ const Resource = () => {
     }
   };
   return (
-    <Box>
-      {dataLoaded ? (
-        <>
-          <Container>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <IconButton
-                onClick={() =>
-                  setFormState({ ...formState, showForm: !formState.showForm })
-                }
-                aria-label="add new record"
-                color="primary"
+    <Suspense fallback={renderLoader()}>
+      <Box>
+        {dataLoaded ? (
+          <>
+            <Container>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                <AddCircleIcon className={styles.addRecordBtn} />
-              </IconButton>
-              <Box my={2} textAlign="center">
-                <Typography variant="h2">{dataName && dataName}</Typography>
-                <Typography variant="h1">£{totalAmount}</Typography>
+                <IconButton
+                  onClick={() =>
+                    setFormState({
+                      ...formState,
+                      showForm: !formState.showForm,
+                    })
+                  }
+                  aria-label="add new record"
+                  color="primary"
+                >
+                  <AddCircleIcon className={styles.addRecordBtn} />
+                </IconButton>
+                <Box my={2} textAlign="center">
+                  <Typography variant="h2">{dataName && dataName}</Typography>
+                  <Typography variant="h1">£{totalAmount}</Typography>
+                </Box>
               </Box>
-            </Box>
-          </Container>
-          <List>
-            {data &&
-              data.map((item, index) => {
-                return (
-                  <ListItem
-                    key={index}
-                    style={
-                      item.moneyIn
-                        ? { display: "flex", justifyContent: "flex-end" }
-                        : { display: "flex", justifyContent: "flex-start" }
-                    }
-                  >
-                    <Accordion
-                      className={`${styles.moneyAction} ${
-                        item.moneyIn ? styles.moneyIn : styles.moneyOut
-                      }`}
+            </Container>
+            <List>
+              {data &&
+                data.map((item, index) => {
+                  return (
+                    <ListItem
+                      key={index}
+                      style={
+                        item.moneyIn
+                          ? { display: "flex", justifyContent: "flex-end" }
+                          : { display: "flex", justifyContent: "flex-start" }
+                      }
                     >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                        className={styles.displayContent}
-                      >
-                        <Typography variant="h5">£{item.amount} </Typography>
-                        <Typography variant="body2">
-                          {item.createdAt}
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails
+                      <Accordion
                         className={`${styles.moneyAction} ${
                           item.moneyIn ? styles.moneyIn : styles.moneyOut
                         }`}
                       >
-                        <Typography>{item.reason}</Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </ListItem>
-                );
-              })}
-          </List>
-        </>
-      ) : (
-        <Typography variant="body1" color="primary">
-          Loading...
-        </Typography>
-      )}
-      <SwipeableDrawer
-        anchor={"right"}
-        open={formState.showForm}
-        onClose={() => setFormState({ ...formState, showForm: false })}
-        onOpen={() => setFormState({ ...formState, showForm: true })}
-      >
-        <Box p={2}>
-          <form className={styles.addRecordForm}>
-            <Box my={2}>
-              <Typography variant="h4">Add new record</Typography>
-            </Box>
-            <Box my={2}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={formState.moneyIn}
-                    onChange={changeHandle}
-                    name="moneyIn"
-                    color="secondary"
-                  />
-                }
-                label="Add in"
-              />
-            </Box>
-            <Box my={2}>
-              <TextField
-                name="amount"
-                type="number"
-                onChange={changeHandle}
-                label="Amount"
-                color="secondary"
-                value={formState.amount}
-                fullWidth
-                required
-              />
-            </Box>
-            <Box my={2}>
-              <TextField
-                name="reason"
-                type="text"
-                onChange={changeHandle}
-                label="Reason"
-                color="secondary"
-                value={formState.reason}
-                fullWidth
-                required
-              />
-            </Box>
-            <Box my={4}>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={addNewRecordHandle}
-              >
-                Submit
-              </Button>
-            </Box>
-          </form>
-        </Box>
-      </SwipeableDrawer>
-    </Box>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header"
+                          className={styles.displayContent}
+                        >
+                          <Typography variant="h5">£{item.amount} </Typography>
+                          <Typography variant="body2">
+                            {item.createdAt}
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails
+                          className={`${styles.moneyAction} ${
+                            item.moneyIn ? styles.moneyIn : styles.moneyOut
+                          }`}
+                        >
+                          <Typography>{item.reason}</Typography>
+                        </AccordionDetails>
+                      </Accordion>
+                    </ListItem>
+                  );
+                })}
+            </List>
+          </>
+        ) : (
+          <Typography variant="body1" color="primary">
+            Loading...
+          </Typography>
+        )}
+        <SwipeableDrawer
+          anchor={"right"}
+          open={formState.showForm}
+          onClose={() => setFormState({ ...formState, showForm: false })}
+          onOpen={() => setFormState({ ...formState, showForm: true })}
+        >
+          <Box p={2}>
+            <form className={styles.addRecordForm}>
+              <Box my={2}>
+                <Typography variant="h4">Add new record</Typography>
+              </Box>
+              <Box my={2}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={formState.moneyIn}
+                      onChange={changeHandle}
+                      name="moneyIn"
+                      color="secondary"
+                    />
+                  }
+                  label="Add in"
+                />
+              </Box>
+              <Box my={2}>
+                <TextField
+                  name="amount"
+                  type="number"
+                  onChange={changeHandle}
+                  label="Amount"
+                  color="secondary"
+                  value={formState.amount}
+                  fullWidth
+                  required
+                />
+              </Box>
+              <Box my={2}>
+                <TextField
+                  name="reason"
+                  type="text"
+                  onChange={changeHandle}
+                  label="Reason"
+                  color="secondary"
+                  value={formState.reason}
+                  fullWidth
+                  required
+                />
+              </Box>
+              <Box my={4}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={addNewRecordHandle}
+                >
+                  Submit
+                </Button>
+              </Box>
+            </form>
+          </Box>
+        </SwipeableDrawer>
+      </Box>
+    </Suspense>
   );
 };
 

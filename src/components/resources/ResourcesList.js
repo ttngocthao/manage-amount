@@ -1,20 +1,19 @@
-import { List, ListItem, Typography } from "@material-ui/core";
-//import ResourcesItem from "./ResourcesItem";
+import { List, ListItem } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router-dom";
-import React, { lazy } from "react";
-import { useSetRecoilState } from "recoil";
+import React, { lazy, Suspense } from "react";
+
 import { resourcesState } from "../../recoil/resources";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 const ResourcesItem = lazy(() => import("./ResourcesItem"));
+
+const renderLoader = () => <p>Loading</p>;
 
 const ResourcesList = ({ data, dataLoaded }) => {
   const history = useHistory();
   const location = useLocation();
-  // const { loaded, data } = useRecoilValue(resourcesState);
-  const [localResourcesState, setResourcesState] = useRecoilState(
-    resourcesState
-  );
+
+  const setResourcesState = useSetRecoilState(resourcesState);
 
   const viewResourcesHandle = async (resourceId, name) => {
     const url = location.pathname;
@@ -27,28 +26,28 @@ const ResourcesList = ({ data, dataLoaded }) => {
   };
 
   return (
-    <List>
-      {dataLoaded && data ? (
-        data.length > 0 ? (
-          data.map((item, index) => {
-            return (
-              <ResourcesItem
-                key={item.resourceId}
-                id={item.resourceId}
-                name={item.resourceName}
-                totalAmount={item.resourceTotalAmount}
-                updatedAt={item.updatedAt}
-                viewResourcesHandle={viewResourcesHandle}
-              />
-            );
-          })
-        ) : (
-          <ListItem>No resources yet</ListItem>
-        )
-      ) : (
-        <Typography color="primary">Loading...</Typography>
-      )}
-    </List>
+    <Suspense fallback={renderLoader()}>
+      <List>
+        {dataLoaded &&
+          data &&
+          (data.length > 0 ? (
+            data.map((item, index) => {
+              return (
+                <ResourcesItem
+                  key={item.resourceId}
+                  id={item.resourceId}
+                  name={item.resourceName}
+                  totalAmount={item.resourceTotalAmount}
+                  updatedAt={item.updatedAt}
+                  viewResourcesHandle={viewResourcesHandle}
+                />
+              );
+            })
+          ) : (
+            <ListItem>No resources yet</ListItem>
+          ))}
+      </List>
+    </Suspense>
   );
 };
 

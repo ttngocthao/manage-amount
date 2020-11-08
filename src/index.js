@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import ReactDOM from "react-dom";
-//import "./index.css";
+
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@material-ui/styles";
@@ -9,11 +9,6 @@ import { theme } from "./materialUI.config";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Box, Container, Typography } from "@material-ui/core";
-import SpinningImg from "./images/cat-spinner.gif";
-//https://stoic-engelbart-88965c.netlify.app/
-// import Firebase from "firebase";
-// import { firebaseConfig } from "./firebase.config";
-// Firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
