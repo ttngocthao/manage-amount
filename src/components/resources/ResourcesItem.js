@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),
   },
+  updatedText: {
+    color: "#777",
+    fontSize: "0.8rem",
+    padding: "4px 0 0",
+  },
 }));
 const ResourcesItem = ({
   id,
@@ -46,10 +51,7 @@ const ResourcesItem = ({
           <Typography variant="h3">£{totalAmount.toFixed(2)}</Typography>
         </Box>
 
-        <Typography
-          variant="body1"
-          style={{ color: "#777", fontSize: "0.8rem", padding: "4px 0 0" }}
-        >
+        <Typography variant="body1" className={styles.updatedText}>
           {updatedAt}
         </Typography>
       </ListItemText>

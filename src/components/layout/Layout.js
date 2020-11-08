@@ -1,22 +1,31 @@
-import React, { lazy, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-//import Header from "../header/Header";
-//import Footer from "../footer/Footer";
-import { Box } from "@material-ui/core";
+import React, { lazy, Suspense } from "react";
+
+import { Box, makeStyles } from "@material-ui/core";
 
 const Header = lazy(() => import("../header/Header"));
 const Footer = lazy(() => import("../footer/Footer"));
 
-const Layout = ({ children }) => {
-  return (
-    <Box pt={10}>
-      <Header />
-      <Box pt={2} style={{ minHeight: "100vh" }}>
-        <main>{children}</main>
-      </Box>
+const useStyles = makeStyles((theme) => ({
+  main: {
+    minHeight: "100vh",
+  },
+}));
 
-      <Footer />
-    </Box>
+const renderLoader = () => <p>Loading</p>;
+
+const Layout = ({ children }) => {
+  const styles = useStyles();
+  return (
+    <Suspense fallback={renderLoader()}>
+      <Box pt={10}>
+        <Header />
+        <Box pt={2} className={styles.main}>
+          <main>{children}</main>
+        </Box>
+
+        <Footer />
+      </Box>
+    </Suspense>
   );
 };
 
