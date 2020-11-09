@@ -17,17 +17,23 @@ import {
 import React, { useEffect, useState, Suspense } from "react";
 import { makeStyles } from "@material-ui/core";
 import { useLocation, useParams } from "react-router-dom";
-import { getResourceDetails, addNewRecord } from "../actions/resources";
+import {
+  getResourceDetails,
+  addNewRecord,
+  deleteRecord,
+} from "../actions/resources";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { DeleteOutline, EditOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   moneyAction: {
     color: "#333",
     borderColor: "white",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
+    alignItems: "center",
     minWidth: "300px",
   },
   addRecordBtn: { color: "white", fontSize: "3rem" },
@@ -164,6 +170,26 @@ const Resource = () => {
       console.log(res);
     }
   };
+
+  const deleteRecordHandle = async (recordItem) => {
+    const { owner, resourceId, recordId, moneyIn, amount } = recordItem;
+    const res = await deleteRecord(
+      owner,
+      resourceId,
+      recordId,
+      totalAmount,
+      moneyIn,
+      amount
+    );
+    alert(res.msg);
+    console.log(res);
+  };
+
+  const editRecordHandle = async (recordItem) => {
+    alert("edit " + recordItem.recordId);
+    console.log(recordItem, totalAmount);
+  };
+
   return (
     <Suspense fallback={renderLoader()}>
       <Box>
@@ -204,6 +230,8 @@ const Resource = () => {
                           ? { display: "flex", justifyContent: "flex-end" }
                           : { display: "flex", justifyContent: "flex-start" }
                       }
+
+                      // onClick={()=>console.log(item.amount,item.id,item.moneyIn,item.resourceId,item.owner)}
                     >
                       <Accordion
                         className={`${styles.moneyAction} ${
@@ -227,6 +255,20 @@ const Resource = () => {
                           }`}
                         >
                           <Typography>{item.reason}</Typography>
+                          <Box>
+                            <IconButton
+                              aria-label="edit"
+                              onClick={() => editRecordHandle(item)}
+                            >
+                              <EditOutlined />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              onClick={() => deleteRecordHandle(item)}
+                            >
+                              <DeleteOutline />
+                            </IconButton>
+                          </Box>
                         </AccordionDetails>
                       </Accordion>
                     </ListItem>

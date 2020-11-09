@@ -43,6 +43,9 @@ export const getResourceDetails = async (userId, resourceId, name) => {
     res.forEach((doc) => {
       if (doc.data().amount > 0) {
         data.push({
+          recordId: doc.id,
+          resourceId: doc.data().resourceId,
+          owner: doc.data().owner,
           moneyIn: doc.data().moneyIn,
           amount: doc.data().amount,
           reason: doc.data().reason,
@@ -118,5 +121,37 @@ export const addNewRecord = async (
     };
   } catch (error) {
     return { status: 400, msg: "failed to add a record", error };
+  }
+};
+
+export const deleteRecord = async (
+  ownerId,
+  resourceId,
+  recordId,
+  totalAmount,
+  moneyIn,
+  amount
+) => {
+  try {
+    const ref = Database.collection(`${ownerId}-${resourceId}`);
+    await ref.doc(recordId).delete();
+    //update the resource.totalAmount
+    //if moneyin ? totalAmount - amount : totalAmount + amount
+    let reCalculateTotalAmount;
+    if (moneyIn) {
+      reCalculateTotalAmount = totalAmount - amount;
+    } else {
+      reCalculateTotalAmount = totalAmount + amount;
+    }
+    await Database.collection("resources")
+      .doc(resourceId)
+      .update({
+        totalAmount: Math.floor(reCalculateTotalAmount * 100) / 100,
+        updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+      });
+
+    return { staus: 200, msg: "successfully delete record" };
+  } catch (error) {
+    return { status: 400, msg: "failed to delete the record", error };
   }
 };
