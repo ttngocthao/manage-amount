@@ -117,7 +117,8 @@ export const addNewRecord = async (
     return {
       status: 200,
       msg: "successufully added record",
-      res,
+      recordId: res.id,
+      ...res,
     };
   } catch (error) {
     return { status: 400, msg: "failed to add a record", error };
@@ -139,9 +140,9 @@ export const deleteRecord = async (
     //if moneyin ? totalAmount - amount : totalAmount + amount
     let reCalculateTotalAmount;
     if (moneyIn) {
-      reCalculateTotalAmount = totalAmount - amount;
+      reCalculateTotalAmount = Number(totalAmount) - Number(amount);
     } else {
-      reCalculateTotalAmount = totalAmount + amount;
+      reCalculateTotalAmount = Number(totalAmount) + Number(amount);
     }
     await Database.collection("resources")
       .doc(resourceId)
@@ -150,7 +151,7 @@ export const deleteRecord = async (
         updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
       });
 
-    return { staus: 200, msg: "successfully delete record" };
+    return { status: 200, msg: "successfully delete record" };
   } catch (error) {
     return { status: 400, msg: "failed to delete the record", error };
   }

@@ -149,6 +149,9 @@ const Resource = () => {
     //update ui
     if (res.status === 200) {
       const newRecord = {
+        recordId: res.recordId,
+        resourceId: id,
+        owner: currentUserId,
         moneyIn: formState.moneyIn,
         amount: formState.amount,
         reason: formState.reason,
@@ -181,7 +184,18 @@ const Resource = () => {
       moneyIn,
       amount
     );
-    alert(res.msg);
+    //alert(res.msg);
+    if (res.status === 200) {
+      const newData = data.filter((item) => item.recordId !== recordId);
+      alert(res.msg);
+
+      //update ui
+      setState({
+        ...state,
+        data: newData,
+        totalAmount: calculateTotalAmount(newData),
+      });
+    }
     console.log(res);
   };
 
@@ -230,8 +244,6 @@ const Resource = () => {
                           ? { display: "flex", justifyContent: "flex-end" }
                           : { display: "flex", justifyContent: "flex-start" }
                       }
-
-                      // onClick={()=>console.log(item.amount,item.id,item.moneyIn,item.resourceId,item.owner)}
                     >
                       <Accordion
                         className={`${styles.moneyAction} ${
