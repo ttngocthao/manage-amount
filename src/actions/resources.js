@@ -1,9 +1,65 @@
 import firebase from "firebase/app";
 import { Database } from "../firebase";
 
-export const getAllResources = async () => {
+export const addResource = async (currentUserId, resourceName) => {
   try {
-    const res = await Database.collection("resources").get();
+    const res = await Database.collection("resources").add({
+      name: resourceName,
+      ownerId: currentUserId,
+      totalAmount: 0,
+      updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+    });
+    return {
+      status: 200,
+      msg: "Successfully added new resource",
+      newItem: {
+        resourceId: res.id,
+        resourceName,
+        resourceTotalAmount: 0,
+        updatedAt: "now",
+      },
+      res,
+    };
+  } catch (error) {
+    return { status: 400, msg: "Failed to add new resource", error };
+  }
+};
+
+export const deleteResource = async (currentUserId, resourceId) => {
+  try {
+    //delete resource
+    const resource = Database.collection("resources").doc(resourceId);
+    await resource.delete();
+    const resourceDetails = await Database.collection(
+      `${currentUserId}-${resourceId}`
+    ).get();
+    //delete all the record in resourceDetail
+    if (resourceDetails.size !== 0) {
+      resourceDetails.forEach(
+        async (doc) =>
+          await Database.collection(`${currentUserId}-${resourceId}`)
+            .doc(doc.id)
+            .delete()
+      );
+    }
+
+    return {
+      status: 200,
+      msg: "Successfully deleted the resource",
+      resourceDetails,
+      resource,
+    };
+    //if resourceDetail exist, delete resource details related to that resource
+  } catch (error) {
+    return { status: 400, msg: "Failed to delete the resource", error };
+  }
+};
+
+export const getAllResources = async (currentUserId) => {
+  try {
+    const res = await Database.collection("resources")
+      .where("ownerId", "==", currentUserId)
+      .get();
     let listOfResources = [];
     res.forEach((doc) => {
       listOfResources.push({
