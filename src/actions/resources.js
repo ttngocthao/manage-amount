@@ -84,6 +84,26 @@ export const createNewResouceDetails = async (userId, resourceId, name) => {
   }
 };
 
+const updateTotalAmount = async (moneyIn, amount, totalAmount, resourceId) => {
+  try {
+    let reCalculateTotalAmount;
+    if (moneyIn) {
+      reCalculateTotalAmount = Number(totalAmount) + Number(amount);
+    } else {
+      reCalculateTotalAmount = Number(totalAmount) - Number(amount);
+    }
+    const res = await Database.collection("resources")
+      .doc(resourceId)
+      .update({
+        totalAmount: Math.floor(reCalculateTotalAmount * 100) / 100,
+        updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+      });
+    return { status: 200, msg: "success updated total amount", res };
+  } catch (error) {
+    return { status: 400, msg: "failed to update total amount", error };
+  }
+};
+
 export const addNewRecord = async (
   name,
   resourceId,
@@ -108,12 +128,7 @@ export const addNewRecord = async (
     });
 
     //update total amount in the resource
-    await Database.collection("resources")
-      .doc(resourceId)
-      .update({
-        totalAmount: Math.floor(totalAmount * 100) / 100,
-        updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
-      });
+    await updateTotalAmount(moneyIn, amount, totalAmount, resourceId);
     return {
       status: 200,
       msg: "successufully added record",
@@ -138,21 +153,40 @@ export const deleteRecord = async (
     await ref.doc(recordId).delete();
     //update the resource.totalAmount
     //if moneyin ? totalAmount - amount : totalAmount + amount
-    let reCalculateTotalAmount;
-    if (moneyIn) {
-      reCalculateTotalAmount = Number(totalAmount) - Number(amount);
-    } else {
-      reCalculateTotalAmount = Number(totalAmount) + Number(amount);
-    }
-    await Database.collection("resources")
-      .doc(resourceId)
-      .update({
-        totalAmount: Math.floor(reCalculateTotalAmount * 100) / 100,
-        updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
-      });
+    await updateTotalAmount(moneyIn, amount * -1, totalAmount, resourceId);
 
     return { status: 200, msg: "successfully delete record" };
   } catch (error) {
     return { status: 400, msg: "failed to delete the record", error };
+  }
+};
+
+export const updateRecord = async (
+  ownerId,
+  resourceId,
+  recordId,
+  moneyIn,
+  amount,
+  reason,
+  totalAmount
+) => {
+  try {
+    const ref = Database.collection(`${ownerId}-${resourceId}`).doc(recordId);
+    const res = await ref.update({
+      moneyIn,
+      amount,
+      reason,
+    });
+
+    await Database.collection("resources")
+      .doc(resourceId)
+      .update({
+        totalAmount: Math.floor(totalAmount * 100) / 100,
+        updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+      });
+
+    return { status: 200, msg: "successfully update the record", res };
+  } catch (error) {
+    return { status: 400, msg: "failed to update the record", error };
   }
 };

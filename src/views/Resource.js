@@ -21,6 +21,7 @@ import {
   getResourceDetails,
   addNewRecord,
   deleteRecord,
+  updateRecord,
 } from "../actions/resources";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -83,6 +84,10 @@ const Resource = () => {
     amount: "",
     moneyIn: true,
     reason: "",
+    formTitle: "Add a new record",
+    textBtn: "Submit",
+    updateRecord: false,
+    editItemId: null,
   });
   const { dataLoaded, data, dataName, totalAmount } = state;
   useEffect(() => {
@@ -129,13 +134,6 @@ const Resource = () => {
   };
 
   const addNewRecordHandle = async () => {
-    let reCalculateTotalAmount;
-    if (formState.moneyIn) {
-      reCalculateTotalAmount = Number(totalAmount) + Number(formState.amount);
-    } else {
-      reCalculateTotalAmount = Number(totalAmount) - Number(formState.amount);
-    }
-    // console.log("check", reCalculateTotalAmount);
     const res = await addNewRecord(
       dataName,
       id,
@@ -143,7 +141,7 @@ const Resource = () => {
       currentUserId,
       formState.moneyIn,
       formState.reason,
-      Math.floor(reCalculateTotalAmount * 1000) / 1000
+      totalAmount
     );
 
     //update ui
@@ -200,8 +198,67 @@ const Resource = () => {
   };
 
   const editRecordHandle = async (recordItem) => {
-    alert("edit " + recordItem.recordId);
-    console.log(recordItem, totalAmount);
+    const { recordId, moneyIn, amount, reason } = recordItem;
+    setFormState({
+      ...formState,
+      showForm: true,
+      moneyIn,
+      amount,
+      reason,
+      formTitle: "Edit this record",
+      textBtn: "Save",
+      updateRecord: true,
+      editItemId: recordId,
+    });
+  };
+
+  const updateRecordHandle = async () => {
+    const editItemIndex = data
+      .map((item) => item.recordId)
+      .indexOf(formState.editItemId);
+
+    const newData = [
+      ...data.slice(0, editItemIndex),
+      {
+        ...data.slice(editItemIndex, editItemIndex + 1)[0],
+        moneyIn: formState.moneyIn,
+        amount: formState.amount,
+        reason: formState.reason,
+      },
+      ...data.slice(editItemIndex + 1),
+    ];
+    const res = await updateRecord(
+      currentUserId,
+      id,
+      formState.editItemId,
+      formState.moneyIn,
+      Number(formState.amount),
+      formState.reason,
+      calculateTotalAmount(newData)
+    );
+    if (res.status === 200) {
+      console.log(res);
+      //update total amount if the amount changes
+      //find index of the edit item in the data array
+
+      setState({
+        ...state,
+        data: newData,
+        totalAmount: calculateTotalAmount(newData),
+      });
+      //close form,update ui
+      setFormState({
+        ...formState,
+        showForm: false,
+        editItemId: null,
+        moneyIn: true,
+        amount: "",
+        reason: "",
+      });
+    } else {
+      alert(res.msg);
+      console.log(res);
+    }
   };
 
   return (
@@ -296,13 +353,24 @@ const Resource = () => {
         <SwipeableDrawer
           anchor={"right"}
           open={formState.showForm}
-          onClose={() => setFormState({ ...formState, showForm: false })}
+          onClose={() =>
+            setFormState({
+              ...formState,
+              showForm: false,
+              amount: "",
+              reason: "",
+              editItemId: null,
+              updateRecord: false,
+              formTitle: "Add new record",
+              textBtn: "Submit",
+            })
+          }
           onOpen={() => setFormState({ ...formState, showForm: true })}
         >
           <Box p={2}>
             <form className={styles.addRecordForm}>
               <Box my={2}>
-                <Typography variant="h4">Add new record</Typography>
+                <Typography variant="h4">{formState.formTitle}</Typography>
               </Box>
               <Box my={2}>
                 <FormControlLabel
@@ -345,9 +413,13 @@ const Resource = () => {
                 <Button
                   color="primary"
                   variant="contained"
-                  onClick={addNewRecordHandle}
+                  onClick={
+                    formState.updateRecord
+                      ? updateRecordHandle
+                      : addNewRecordHandle
+                  }
                 >
-                  Submit
+                  {formState.textBtn}
                 </Button>
               </Box>
             </form>
