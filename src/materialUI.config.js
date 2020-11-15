@@ -43,6 +43,13 @@ theme.overrides = {
       backgroundColor: "rgb(85, 204, 212)",
     },
   },
+  MuiBotton: {
+    contained: {
+      "&:hover": {
+        backgroundColor: "inherit",
+      },
+    },
+  },
   MuiDrawer: {
     paper: {
       width: "70%",
@@ -50,12 +57,11 @@ theme.overrides = {
       backgroundImage:
         "linear-gradient(45deg ,rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
     },
-    // paperAnchorLeft: {
-    //   width: "50%",
-    //   maxWidth: "300px",
-    //   backgroundImage:
-    //     "linear-gradient(45deg ,rgb(85, 204, 212), rgb(199, 218, 199), rgb(255, 182, 141), rgb(254, 141, 123), rgb(254, 103, 134))",
-    // },
+  },
+  MuiInputLabel: {
+    shrink: {
+      transform: " translate(0, -9.5px) scale(0.75)",
+    },
   },
   MuiListItem: {
     container: {

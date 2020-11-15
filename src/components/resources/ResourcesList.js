@@ -9,7 +9,7 @@ const ResourcesItem = lazy(() => import("./ResourcesItem"));
 
 const renderLoader = () => <p>Loading</p>;
 
-const ResourcesList = ({ data, dataLoaded }) => {
+const ResourcesList = ({ data, dataLoaded, deleteResourceHandle }) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -40,6 +40,7 @@ const ResourcesList = ({ data, dataLoaded }) => {
                   totalAmount={item.resourceTotalAmount}
                   updatedAt={item.updatedAt}
                   viewResourcesHandle={viewResourcesHandle}
+                  deleteResourceHandle={deleteResourceHandle}
                 />
               );
             })

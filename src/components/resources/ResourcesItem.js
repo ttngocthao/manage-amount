@@ -8,6 +8,7 @@ import {
   ListItemText,
   Typography,
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 import React from "react";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 
@@ -33,6 +34,7 @@ const ResourcesItem = ({
   totalAmount,
   updatedAt,
   viewResourcesHandle,
+  deleteResourceHandle,
 }) => {
   const styles = useStyles();
   return (
@@ -48,7 +50,9 @@ const ResourcesItem = ({
       <ListItemText>
         <Typography variant="h6">{name}</Typography>
         <Box my={1}>
-          <Typography variant="h3">£{totalAmount.toFixed(2)}</Typography>
+          <Typography variant="h3">
+            £{totalAmount ? totalAmount.toFixed(2) : 0}
+          </Typography>
         </Box>
 
         <Typography variant="body1" className={styles.updatedText}>
@@ -60,9 +64,9 @@ const ResourcesItem = ({
         <IconButton
           edge="end"
           aria-label="delete"
-          onClick={() => alert(`delete ${id}`)}
+          onClick={() => deleteResourceHandle(id)}
         >
-          {/* <DeleteIcon /> */}
+          <DeleteIcon />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>
