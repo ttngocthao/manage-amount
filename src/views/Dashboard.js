@@ -7,6 +7,7 @@ import {
   getAllResources,
   addResource,
   deleteResource,
+  editResource,
 } from "../actions/resources";
 import AddNewResource from "../components/resources/AddNewResource";
 
@@ -36,13 +37,20 @@ const Dashboard = () => {
     data: [],
     totalAmount: 0,
     addNewResourceFormOpened: false,
+    itemInView: null,
+    inputText: "",
   });
   const {
     dataLoaded,
     data,
     totalAmount,
     addNewResourceFormOpened,
+    itemInView,
+    inputText,
   } = dashboardState;
+  const onChangeHandle = (e) => {
+    setdashboardState({ ...dashboardState, inputText: e.target.value });
+  };
   useEffect(() => {
     (async () => {
       const res = await getAllResources(currentUserId);
@@ -73,15 +81,17 @@ const Dashboard = () => {
     setdashboardState({
       ...dashboardState,
       addNewResourceFormOpened: false,
+      itemInView: null,
+      inputText: "",
     });
   };
-  const addResourceHandle = async (resourceName) => {
-    if (resourceName === "") {
+  const addResourceHandle = async () => {
+    if (inputText === "") {
       alert("Name cannot be empty");
       return;
     }
     //add resources
-    const res = await addResource(currentUserId, resourceName);
+    const res = await addResource(currentUserId, inputText);
 
     //close form and update ui
     setdashboardState({
@@ -109,6 +119,44 @@ const Dashboard = () => {
     console.log(res);
   };
 
+  const editResourceHandle = async () => {
+    const res = await editResource(itemInView.resourceId, inputText);
+    if (res.status === 200) {
+      //find index of the resource in the data list
+      const editItemIndex = data
+        .map((item) => item.resourceId)
+        .indexOf(itemInView.resourceId);
+      const newData = [
+        ...data.slice(0, editItemIndex),
+        {
+          ...data.slice(editItemIndex, editItemIndex + 1)[0],
+          resourceName: inputText,
+        },
+        ...data.slice(editItemIndex + 1),
+      ];
+      setdashboardState({
+        ...dashboardState,
+        data: newData,
+        addNewResourceFormOpened: false,
+        itemInView: null,
+        inputText: "",
+      });
+    } else {
+      alert(res.msg);
+      console.log(res);
+    }
+  };
+
+  const editResourceBtnHandle = (resourceId) => {
+    const editItem = data.filter((item) => item.resourceId === resourceId)[0];
+    setdashboardState({
+      ...dashboardState,
+      addNewResourceFormOpened: true,
+      itemInView: editItem,
+      inputText: editItem.resourceName,
+    });
+  };
+
   return (
     <Suspense fallback={renderLoader()}>
       <Box>
@@ -124,12 +172,17 @@ const Dashboard = () => {
           data={data}
           dataLoaded={dataLoaded}
           deleteResourceHandle={deleteResourceHandle}
+          editResourceBtnHandle={editResourceBtnHandle}
         />
       </Box>
       <AddNewResource
         open={addNewResourceFormOpened}
         handleClose={closeFormHandle}
         addResourceHandle={addResourceHandle}
+        editResourceHandle={editResourceHandle}
+        itemInView={itemInView}
+        inputText={inputText}
+        onChangeHandle={onChangeHandle}
       />
     </Suspense>
   );

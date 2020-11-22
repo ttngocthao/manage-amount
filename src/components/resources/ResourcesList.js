@@ -9,7 +9,12 @@ const ResourcesItem = lazy(() => import("./ResourcesItem"));
 
 const renderLoader = () => <p>Loading</p>;
 
-const ResourcesList = ({ data, dataLoaded, deleteResourceHandle }) => {
+const ResourcesList = ({
+  data,
+  dataLoaded,
+  deleteResourceHandle,
+  editResourceBtnHandle,
+}) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -41,6 +46,7 @@ const ResourcesList = ({ data, dataLoaded, deleteResourceHandle }) => {
                   updatedAt={item.updatedAt}
                   viewResourcesHandle={viewResourcesHandle}
                   deleteResourceHandle={deleteResourceHandle}
+                  editResourceBtnHandle={editResourceBtnHandle}
                 />
               );
             })

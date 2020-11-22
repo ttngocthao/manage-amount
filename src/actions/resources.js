@@ -25,6 +25,19 @@ export const addResource = async (currentUserId, resourceName) => {
   }
 };
 
+export const editResource = async (resouceId, resourceName) => {
+  try {
+    const ref = Database.collection("resources").doc(resouceId);
+    const res = await ref.update({
+      name: resourceName,
+      updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+    });
+    return { status: 200, msg: "Successfully updated resource name", res };
+  } catch (error) {
+    return { status: 400, msg: "Failed to update reosource name", error };
+  }
+};
+
 export const deleteResource = async (currentUserId, resourceId) => {
   try {
     //delete resource

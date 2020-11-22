@@ -13,6 +13,7 @@ import React from "react";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 
 import { makeStyles } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
@@ -35,6 +36,7 @@ const ResourcesItem = ({
   updatedAt,
   viewResourcesHandle,
   deleteResourceHandle,
+  editResourceBtnHandle,
 }) => {
   const styles = useStyles();
   return (
@@ -61,6 +63,13 @@ const ResourcesItem = ({
       </ListItemText>
 
       <ListItemSecondaryAction>
+        <IconButton
+          edge="end"
+          aria-label="edit"
+          onClick={() => editResourceBtnHandle(id)}
+        >
+          <EditIcon />
+        </IconButton>
         <IconButton
           edge="end"
           aria-label="delete"
