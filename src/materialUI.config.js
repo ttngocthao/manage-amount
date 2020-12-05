@@ -50,6 +50,13 @@ theme.overrides = {
       },
     },
   },
+  MuiButton: {
+    containedPrimary: {
+      "&:hover": {
+        backgroundColor: theme.palette.primary.main,
+      },
+    },
+  },
   MuiDrawer: {
     paper: {
       width: "70%",

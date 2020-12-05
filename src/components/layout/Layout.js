@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 
 import { Box, makeStyles } from "@material-ui/core";
+import Loading from "../loading/Loading";
 
 const Header = lazy(() => import("../header/Header"));
 const Footer = lazy(() => import("../footer/Footer"));
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const renderLoader = () => <p>Loading</p>;
+const renderLoader = () => <Loading />;
 
 const Layout = ({ children }) => {
   const styles = useStyles();

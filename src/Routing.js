@@ -7,6 +7,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Resource from "./views/Resource";
 import { authState } from "./recoil/auth";
 import { useRecoilValue } from "recoil";
+
 const Home = lazy(() => import("./views/Home"));
 const About = lazy(() => import("./views/About"));
 const Dashboard = lazy(() => import("./views/Dashboard"));
@@ -25,7 +26,11 @@ const Routing = () => {
         path="/dashboard"
         component={Dashboard}
       ></PrivateRoute>
-      <Route exact path="/dashboard/:id" component={Resource}></Route>
+      <PrivateRoute
+        exact
+        path="/dashboard/:id"
+        component={Resource}
+      ></PrivateRoute>
     </Switch>
   );
 };

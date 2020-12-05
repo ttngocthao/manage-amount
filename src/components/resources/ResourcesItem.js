@@ -18,7 +18,7 @@ import EditIcon from "@material-ui/icons/Edit";
 const useStyles = makeStyles((theme) => ({
   wrap: {
     borderRadius: "10px",
-    backgroundColor: "rgba(247, 207, 215, 0.5)",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
     padding: theme.spacing(2),

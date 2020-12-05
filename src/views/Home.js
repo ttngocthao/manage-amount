@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 //import Login from "../components/login/Login";
 import { useRecoilValue } from "recoil";
 import { authState } from "../recoil/auth";
@@ -9,6 +9,9 @@ const Login = lazy(() => import("../components/login/Login"));
 const Home = () => {
   const globalAuthState = useRecoilValue(authState);
   const { currentUserId } = globalAuthState || { currentUserId: "" };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div>
       <Box my={4} px={3}>
