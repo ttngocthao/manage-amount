@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.success.main,
     marginLeft: theme.spacing(2),
     color: "white",
+    "&.MuiButton-root:hover": {
+      backgroundColor: theme.palette.success.main,
+    },
   },
 }));
 

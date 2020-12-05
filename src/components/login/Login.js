@@ -54,10 +54,8 @@ const Login = () => {
       className={styles.formWrap}
     >
       <form onSubmit={submitHandle}>
-        <Typography variant="h2" color="primary">
-          Login
-        </Typography>
-        <Box my={2}>
+        <Typography variant="h2">Login</Typography>
+        <Box my={4}>
           <TextField
             name="email"
             id="email"
@@ -70,7 +68,7 @@ const Login = () => {
           />
         </Box>
 
-        <Box my={2}>
+        <Box my={4}>
           <TextField
             onChange={changeHandle}
             name="password"

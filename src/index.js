@@ -8,21 +8,14 @@ import { ThemeProvider } from "@material-ui/styles";
 import { theme } from "./materialUI.config";
 import { BrowserRouter as Router } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
-import { Box, Container, Typography } from "@material-ui/core";
+
+import Loading from "./components/loading/Loading";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <RecoilRoot>
       <Router>
-        <Suspense
-          fallback={
-            <Container>
-              <Box my={4} px={3}>
-                <Typography variant="h1">App is loading</Typography>
-              </Box>
-            </Container>
-          }
-        >
+        <Suspense fallback={<Loading />}>
           <App />
         </Suspense>
       </Router>

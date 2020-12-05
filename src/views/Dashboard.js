@@ -2,7 +2,7 @@ import { Box, Button, makeStyles } from "@material-ui/core";
 import React, { lazy, useEffect, useState, Suspense } from "react";
 //import ResourcesList from "../components/resources/ResourcesList";
 //import Total from "../components/total/Total";
-
+import Loading from "../components/loading/Loading";
 import {
   getAllResources,
   addResource,
@@ -16,7 +16,7 @@ const ResourcesList = lazy(() =>
 );
 const Total = lazy(() => import("../components/total/Total"));
 
-const renderLoader = () => <p>Loading</p>;
+const renderLoader = () => <Loading />;
 
 const useStyles = makeStyles((theme) => ({
   addResourceBtn: {
@@ -25,7 +25,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "8px",
     minHeight: "100px",
     display: "block",
-    backgroundColor: `rgba(85,204,212,.7)`,
+    fontWeight: "bold",
+    fontSize: "1rem",
+    "& .MuiButton-label": {
+      textTransform: "none",
+    },
+    "&.MuiButton-containedPrimary:hover": {
+      backgroundColor: theme.palette.primary.main,
+    },
   },
 }));
 
@@ -161,19 +168,23 @@ const Dashboard = () => {
     <Suspense fallback={renderLoader()}>
       <Box>
         <Total totalAmount={totalAmount} />
-        <Button
-          variant="contained"
-          onClick={addNewResourceBtnHandle}
-          className={styles.addResourceBtn}
-        >
-          Add new resource
-        </Button>
+
         <ResourcesList
           data={data}
           dataLoaded={dataLoaded}
           deleteResourceHandle={deleteResourceHandle}
           editResourceBtnHandle={editResourceBtnHandle}
         />
+      </Box>
+      <Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={addNewResourceBtnHandle}
+          className={styles.addResourceBtn}
+        >
+          New Resource
+        </Button>
       </Box>
       <AddNewResource
         open={addNewResourceFormOpened}
