@@ -94,9 +94,10 @@ export const getAllResources = async (currentUserId) => {
 
 export const getResourceDetails = async (userId, resourceId, name) => {
   try {
-    const ref = Database.collection(`${userId}-${resourceId}`)
-      .orderBy("createdAt", "desc")
-      .limit(10);
+    const ref = Database.collection(`${userId}-${resourceId}`).orderBy(
+      "createdAt",
+      "desc"
+    );
 
     let data = [];
     const res = await ref.get();
