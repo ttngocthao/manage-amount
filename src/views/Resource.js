@@ -102,7 +102,7 @@ const Resource = () => {
             data: res.data,
             totalAmount: calculateTotalAmount(res.data),
           });
-          // console.log(res);
+         // console.log(dataName && dataName,res);
         } else {
           console.log(res);
         }
@@ -126,6 +126,7 @@ const Resource = () => {
   };
 
   const calculateTotalAmount = (dataArr) => {
+    if( dataArr.length<=0) return 0 
     const total = dataArr.reduce(
       (current, obj) => current + obj.amount * (obj.moneyIn ? 1 : -1),
       0

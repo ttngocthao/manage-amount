@@ -1,5 +1,5 @@
 import { Box, Modal } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 
 import LoadingImg from "../../images/loadingSpinner.gif";

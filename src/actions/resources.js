@@ -107,11 +107,11 @@ export const getResourceDetails = async (userId, resourceId, name) => {
         resourceId,
         name
       );
-      console.log(createResourceDetailsRes);
+     console.log(createResourceDetailsRes);
     }
 
     res.forEach((doc) => {
-      if (doc.data().amount > 0) {
+      if (doc.data().amount >= 0) {
         data.push({
           recordId: doc.id,
           resourceId: doc.data().resourceId,
