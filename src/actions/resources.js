@@ -96,7 +96,7 @@ export const getResourceDetails = async (userId, resourceId, name) => {
   try {
     const ref = Database.collection(`${userId}-${resourceId}`)
       .orderBy("createdAt", "desc")
-      .limit(10);
+      .limit(100);
 
     let data = [];
     const res = await ref.get();
@@ -106,11 +106,11 @@ export const getResourceDetails = async (userId, resourceId, name) => {
         resourceId,
         name
       );
-      console.log(createResourceDetailsRes);
+     console.log(createResourceDetailsRes);
     }
 
     res.forEach((doc) => {
-      if (doc.data().amount > 0) {
+      if (doc.data().amount >= 0) {
         data.push({
           recordId: doc.id,
           resourceId: doc.data().resourceId,
